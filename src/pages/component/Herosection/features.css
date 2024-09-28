@@ -1,0 +1,13 @@
+.feature-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  font-family: 'Mulish', sans-serif;
+  color: #000;
+}
+.feature-description {
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-family: 'Mulish', sans-serif;
+  color: #000;
+  opacity: 0.4;
+}
