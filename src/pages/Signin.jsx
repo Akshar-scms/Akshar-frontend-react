@@ -23,22 +23,24 @@ function Signin() {
   const onSubmit = async (data, event) => {
     event.preventDefault();
     // console.log(data);
-    try {
-      const response = await login(data.username, data.password);
-      if (response.status) {
-        setUserRole(response.body.role);
-        setUsername(response.body.username);
-        if (response.body.role === 'ADMIN') {
+    // try {
+    const response = await login(data.username, data.password);
+    if (response.status) {
+      setUserRole(response.body.role);
+      setUsername(response.body.username);
+      // console.log(response);
+
+      switch (response.body.role) {
+        case 'ADMIN':
           navigate('/admin/dashboard');
-        } else if (response.body.role === 'TEACHER') {
+          break;
+        case 'TEACHER':
           navigate('/faculty/dashboard');
-        } else if (response.body.role === 'STUDENT');
-        {
+          break;
+        case 'STUDENT':
           navigate('/student/dashboard');
-        }
+          break;
       }
-    } catch (error) {
-      // alert(error);
     }
   };
 

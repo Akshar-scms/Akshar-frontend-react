@@ -80,6 +80,9 @@ function ConductLecture() {
   useEffect(() => {
     fetchCourses();
     fetchClassrooms();
+    if (localStorage.getItem("lectureId")) {
+      navigate("/faculty/conducting-lecture");
+    }
   }, []); // Only run once on mount
 
   // Handlers for onChange events

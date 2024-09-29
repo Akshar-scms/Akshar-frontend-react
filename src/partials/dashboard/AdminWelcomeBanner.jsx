@@ -3,6 +3,19 @@ import { useSelector } from 'react-redux';
 
 function AdminWelcomeBanner() {
   const { username, role } = useSelector((store) => store.userDetailStore);
+  const safeUsername = username || '';
+  const name = safeUsername.includes('@')
+    ? safeUsername.slice(0, safeUsername.indexOf('@'))
+    : safeUsername;
+
+  function getGreeting() {
+    const hour = new Date().getHours();
+    if (hour >= 21 || hour < 4) return 'Good night';
+    if (hour >= 4 && hour < 12) return 'Good morning';
+    if (hour >= 12 && hour < 16) return 'Good afternoon';
+    return 'Good evening';
+  }
+
   return (
     <div className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
       {/* Background illustration */}
@@ -71,7 +84,7 @@ function AdminWelcomeBanner() {
       {/* Content */}
       <div className="relative">
         <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-1">
-          Good afternoon, {username}. 👋
+          {getGreeting()}, {name}. 👋
         </h1>
         <p>Here is what’s happening in the campus:</p>
       </div>

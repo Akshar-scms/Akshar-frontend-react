@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AttendanceTableItem from './AttendanceTableItem';
 import DoughnutChart from '../../charts/DoughnutChart';
@@ -15,7 +15,11 @@ function AttendanceTable({ selectedItems }) {
       try {
         const lectureId = localStorage.getItem('lectureId');
         const response = await getStudentForCurrentLecture({ id: lectureId });
-        setAttendanceList(response.body.studentList);
+        if (response && response.body && response.body.studentList) {
+          setAttendanceList(response.body.studentList);
+        } else {
+          console.error('Invalid response structure:', response);
+        }
       } catch (error) {
         console.error('Error fetching students:', error);
       }
@@ -33,32 +37,42 @@ function AttendanceTable({ selectedItems }) {
           : student
       )
     );
-    const response = await markAttendence({
-      id,
-      attendanceStatus: newStatus,
-    });
-    console.log(response);
+    try {
+      const response = await markAttendence({
+        id,
+        attendanceStatus: newStatus,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error('Error marking attendance:', error);
+    }
   };
 
-  const presentCount = attendanceList.filter(
-    (attendance) => attendance.attendanceStatus === 'Present'
-  ).length;
-  const absentCount = attendanceList.filter(
-    (attendance) => attendance.attendanceStatus === 'Absent'
-  ).length;
+  const { presentCount, absentCount } = useMemo(() => {
+    const present = attendanceList.filter(
+      (attendance) => attendance.attendanceStatus === 'Present'
+    ).length;
+    const absent = attendanceList.filter(
+      (attendance) => attendance.attendanceStatus === 'Absent'
+    ).length;
+    return { presentCount: present, absentCount: absent };
+  }, [attendanceList]);
 
-  const chartData = {
-    labels: ['Present', 'Absent'],
-    datasets: [
-      {
-        label: 'My Dataset',
-        data: [presentCount, absentCount],
-        backgroundColor: ['#FF6384', '#36A2EB'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB'],
-        borderWidth: 1,
-      },
-    ],
-  };
+  const chartData = useMemo(
+    () => ({
+      labels: ['Present', 'Absent'],
+      datasets: [
+        {
+          label: 'Attendance',
+          data: [presentCount, absentCount],
+          backgroundColor: ['#FF6384', '#36A2EB'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+          borderWidth: 1,
+        },
+      ],
+    }),
+    [presentCount, absentCount]
+  );
 
   return (
     <div className="bg-white shadow-lg rounded-sm border border-slate-200 relative">
@@ -68,7 +82,6 @@ function AttendanceTable({ selectedItems }) {
 
       <div>
         <div style={{ position: 'absolute', top: '-200px', left: '55%' }}>
-          {/* Fix: Correct usage of DoughnutChart component */}
           <DoughnutChart data={chartData} width={120} height={120} />
         </div>
 

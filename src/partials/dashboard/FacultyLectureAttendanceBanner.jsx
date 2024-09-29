@@ -1,8 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { endLecture } from '../../apis/teacher/conductingLecture';
+import { useNavigate } from 'react-router-dom';
 
 function FacultyLectureAttendanceBanner() {
-  const { username, role } = useSelector((store) => store.userDetailStore);
+  const { username, role, id } = useSelector((store) => store.userDetailStore);
+
+  const navigate = useNavigate();
+
+  const handleOnEndLecture = async () => {
+    const id = localStorage.getItem('lectureId');
+
+    const response = await endLecture({ teacherId: id, id });
+    if (response.status) {
+      localStorage.removeItem('lectureId');
+      navigate('/faculty/conduct-lecture');
+    }
+  };
+
   return (
     <div className="relative bg-indigo-200 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
       {/* Background illustration */}
@@ -90,8 +105,20 @@ function FacultyLectureAttendanceBanner() {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           style={{ position: 'absolute', right: '620px', top: '60px' }}
+          onClick={() => {
+            navigate('/Faculty/whiteboard');
+          }}
         >
           Start Whiteboard
+        </button>
+        <button
+          className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          style={{ position: 'absolute', right: '823px', top: '60px' }}
+          onClick={() => {
+            handleOnEndLecture();
+          }}
+        >
+          End Lecture
         </button>
       </div>
     </div>

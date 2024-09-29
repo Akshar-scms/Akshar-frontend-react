@@ -19,7 +19,7 @@ function DropdownProfile({ align }) {
 
   const fetchUserDetails = async () => {
     const response = await getUserDetails();
-
+    localStorage.setItem("id", response.body.id);
     if (response.status) {
       dispatch(userDetailsActions.saveUsername(response.body));
     }

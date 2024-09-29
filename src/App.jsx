@@ -6,7 +6,6 @@ import './css/style.css';
 import './charts/ChartjsConfig';
 
 import Herosection from './pages/Herosection';
-import AdminAnalytics from './pages/users/admin/AdminAnalytics';
 import PageNotFound from './pages/utility/PageNotFound';
 import Signin from './pages/Signin';
 import AdminRoutes from './pages/component/auth/AdminRoutes';
@@ -20,7 +19,7 @@ import ConductLecture from './pages/users/teacher/ConductLecture';
 import ConductingLecture from './pages/users/teacher/ConductingLecture';
 import AttendLecture from './pages/users/student/AttendLecture.jsx';
 import ClassRoomMapping from './pages/users/admin/ClassRoomMapping';
-
+import Whiteboard from './pages/users/teacher/Whiteboard';
 function App() {
   const location = useLocation();
 
@@ -56,6 +55,7 @@ function App() {
           <Route path="dashboard" element={<TeacherDashboard />} />
           <Route path="conduct-lecture" element={<ConductLecture />} />
           <Route path="conducting-lecture" element={<ConductingLecture />} />
+          <Route path="whiteboard" element={<Whiteboard />} />
           <Route path="*" element={<PageNotFound />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />

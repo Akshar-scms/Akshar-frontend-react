@@ -36,3 +36,20 @@ export const markAttendence = async (data) => {
   }
   return response.json();
 };
+
+export const endLecture = async (data) => {
+  const response = await fetch(GLOBAL_URL + "teacher/lecture/endLecture", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    alert("Invalid Username or password");
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};

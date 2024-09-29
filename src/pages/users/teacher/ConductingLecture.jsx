@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useParams and useNavigate
-import FacultySidebar from "../../../partials/FacultySidebar";
-import Header from "../../../partials/Header";
-import AttendanceTable from "../../../partials/attendance/AttendanceTable";
-import FacultyLectureAttendanceBanner from "../../../partials/dashboard/FacultyLectureAttendanceBanner";
-import { getStudentForCurrentLecture } from "../../../apis/teacher/conductingLecture";
-
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useParams and useNavigate
+import FacultySidebar from '../../../partials/FacultySidebar';
+import Header from '../../../partials/Header';
+import AttendanceTable from '../../../partials/attendance/AttendanceTable';
+import FacultyLectureAttendanceBanner from '../../../partials/dashboard/FacultyLectureAttendanceBanner';
+import { getStudentForCurrentLecture } from '../../../apis/teacher/conductingLecture';
 // Mock data for testing
 
 function ConductingLecture() {
@@ -15,25 +14,27 @@ function ConductingLecture() {
 
   const { lectureId: paramLectureId } = useParams(); // Retrieve lectureId from URL parameters
   const navigate = useNavigate();
-  const lectureId = localStorage.getItem("lectureId") || paramLectureId; // Get lectureId from localStorage or URL
+  const lectureId = localStorage.getItem('lectureId') || paramLectureId; // Get lectureId from localStorage or URL
 
   useEffect(() => {
     if (!lectureId) {
       // If lectureId is not found, redirect to Conduct Lecture page
-      navigate("/faculty/conduct-lecture");
+      navigate('/faculty/conduct-lecture');
     } else {
       // Fetch students if lectureId exists
       const fetchStudents = async () => {
         try {
         } catch (error) {
-          console.error("Error fetching students:", error);
-          setError("Failed to load students. Please try again later.");
+          console.error('Error fetching students:', error);
+          setError('Failed to load students. Please try again later.');
         }
       };
 
       fetchStudents();
     }
-  }, [lectureId, navigate]); // Add lectureId and navigate as dependencies
+  }, [lectureId, navigate]);
+
+  //  dd lectureId and navigate as dependencies
 
   return (
     <div className="flex h-screen overflow-hidden">
