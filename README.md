@@ -107,13 +107,13 @@ Our robust tech stack showcases our commitment to using cutting-edge technologie
 1. Clone the repository:
 
    ```
-   git clone https://github.com/vinay-th/Akshar.git
+   git clone https://github.com/Akshar-scms/Akshar-frontend-react.git
    ```
 
 2. Install dependencies:
 
    ```
-   cd Akshar
+   cd Akshar-frontend-react
    npm install
    ```
 
